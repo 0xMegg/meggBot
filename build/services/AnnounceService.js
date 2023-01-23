@@ -7,19 +7,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { singleton } from "tsyringe";
 import { prisma } from "../database/prisma";
 let AnnounceService = class AnnounceService {
-    save(userId, messageId, channelId, guildId) {
+    save(userId, messageId, channelId) {
         return prisma.savedChat.upsert({
             where: { creator: userId },
             update: {
                 messageId: messageId,
                 channelId: channelId,
-                guildId: guildId,
             },
             create: {
                 creator: userId,
                 messageId: messageId,
                 channelId: channelId,
-                guildId: guildId,
             },
         });
     }

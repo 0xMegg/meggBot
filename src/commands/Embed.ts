@@ -43,6 +43,7 @@ export class Embed {
     targetChannelId: string,
     interaction: CommandInteraction
   ) {
+    console.log("start to run");
     let targetChannel = interaction.channel as TextBasedChannel;
     if (targetChannelId !== undefined && targetChannelId !== null) {
       targetChannel = bot.channels.cache.get(
@@ -67,7 +68,6 @@ export class Embed {
         ],
       };
     };
-
     const target = new Date(time).getTime();
     const now = new Date().getTime();
     const limit = target - now;
@@ -76,15 +76,30 @@ export class Embed {
 
     const announceData = await this.announceService.read(interaction.user.id);
 
-    if (announceData === null) return;
+    if (announceData === null) {
+      interaction.reply("저장된 데이터가 없습니다");
+      return;
+    }
+    console.log("1");
     const messageId = announceData?.messageId;
     const channelId = announceData?.channelId;
-    // const guildId = announceData?.guildId;
 
     const foundChannel = bot.channels.cache.get(channelId);
-    if (foundChannel === undefined) return;
-    if (foundChannel.type !== ChannelType.GuildText) return;
+    if (foundChannel === undefined) {
+      interaction.reply("저장된 channelId가 올바르지 않습니다");
+      return;
+    }
+    console.log("2");
+    if (foundChannel.type !== ChannelType.GuildText) {
+      interaction.reply("저장된 채널이 텍스트 기반 채널이 아닙니다");
+      return;
+    }
+    console.log("3");
     const content = (await foundChannel?.messages.fetch(messageId)).content;
+    if (content === null) {
+      interaction.reply("저장된 문구가 없습니다");
+      return;
+    }
     console.log(`content is ${content}`);
 
     await interaction.deferReply();

@@ -15,9 +15,7 @@ export class Collect {
 
     const messageId = reaction.message.id;
     const channelId = reaction.message.channelId;
-    const guildId = reaction.message.guildId;
 
-    if (guildId === null) return;
-    await this.announceService.save(clicker, messageId, channelId, guildId);
+    await this.announceService.save(clicker, messageId, channelId);
   }
 }

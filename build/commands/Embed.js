@@ -42,19 +42,19 @@ let Embed = class Embed {
         const target = new Date(time).getTime();
         const now = new Date().getTime();
         const limit = target - now;
-        console.log(`target : ${target}\nnow    : ${now}\nlimit is ${limit}`);
+        // console.log(`target : ${target}\nnow    : ${now}\nlimit is ${limit}`);
         const announceData = await this.announceService.read(interaction.user.id);
         if (announceData === null)
             return;
         const messageId = announceData?.messageId;
         const channelId = announceData?.channelId;
-        // const guildId = announceData?.guildId;
         const foundChannel = bot.channels.cache.get(channelId);
         if (foundChannel === undefined)
             return;
         if (foundChannel.type !== ChannelType.GuildText)
             return;
         const content = (await foundChannel?.messages.fetch(messageId)).content;
+        console.log(`content is ${content}`);
         await interaction.deferReply();
         if (targetChannel === undefined)
             return;

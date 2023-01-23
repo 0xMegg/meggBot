@@ -7,21 +7,18 @@ export class AnnounceService {
   save(
     userId: string,
     messageId: string,
-    channelId: string,
-    guildId: string
+    channelId: string
   ): PrismaPromise<SavedChat> {
     return prisma.savedChat.upsert({
       where: { creator: userId },
       update: {
         messageId: messageId,
         channelId: channelId,
-        guildId: guildId,
       },
       create: {
         creator: userId,
         messageId: messageId,
         channelId: channelId,
-        guildId: guildId,
       },
     });
   }
